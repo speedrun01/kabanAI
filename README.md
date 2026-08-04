@@ -10,15 +10,21 @@ A local Kanban board app with a simple login flow, board persistence, and an AI 
 
 ## Run locally
 
-### 1. Start the backend and frontend
+### 1. Start the app with the provided script
 
 From the project root:
 
 ```bash
-docker compose up --build -d
+./scripts/start.sh
 ```
 
 This starts the app stack with the backend API and the frontend.
+
+If you want to stop it later, run:
+
+```bash
+./scripts/stop.sh
+```
 
 ### 2. Open the app
 
