@@ -13,6 +13,7 @@ import {
 } from "@dnd-kit/core";
 import { KanbanColumn } from "@/components/KanbanColumn";
 import { KanbanCardPreview } from "@/components/KanbanCardPreview";
+import { AIChatPanel } from "@/components/AIChatPanel";
 import { createId, initialData, moveCard, type BoardData } from "@/lib/kanban";
 
 type KanbanBoardProps = {
@@ -174,17 +175,28 @@ export const KanbanBoard = ({
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <section className="grid gap-6 lg:grid-cols-5">
-            {board.columns.map((column) => (
-              <KanbanColumn
-                key={column.id}
-                column={column}
-                cards={column.cardIds.map((cardId) => board.cards[cardId])}
-                onRename={handleRenameColumn}
-                onAddCard={handleAddCard}
-                onDeleteCard={handleDeleteCard}
+          <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
+            <div className="grid gap-6 lg:grid-cols-5">
+              {board.columns.map((column) => (
+                <KanbanColumn
+                  key={column.id}
+                  column={column}
+                  cards={column.cardIds.map((cardId) => board.cards[cardId])}
+                  onRename={handleRenameColumn}
+                  onAddCard={handleAddCard}
+                  onDeleteCard={handleDeleteCard}
+                />
+              ))}
+            </div>
+            {auth ? (
+              <AIChatPanel
+                board={board}
+                token={auth.username === "user" ? "token-user" : ""}
+                onBoardChange={(nextBoard) => {
+                  void persistBoard(nextBoard);
+                }}
               />
-            ))}
+            ) : null}
           </section>
           <DragOverlay>
             {activeCard ? (
